@@ -1,11 +1,14 @@
 var todo = []
 var counter = 0
+//this flag tells us that we are editing a Todo
+//This will also tell us which Todo we are editing
+var editingFlag = -1
 
 function mockData()
 {
-    addtoArray(counter++, "Need to buy groceries", true)
+    addtoArray(counter++, "Need to buy groceries", false)
     addtoArray(counter++, "Need to complete assignment", false)
-    addtoArray(counter++, "Need to eat food", true)
+    addtoArray(counter++, "Need to eat food", false)
     addtoArray(counter++, "Need to sleep", false)
     updateFrontend()
     console.log(todo)
@@ -67,6 +70,19 @@ function checkboxListener(id)
     updateFrontend()
 }
 
+function editTodo(id)
+{
+    console.log("editTodo")
+    editingFlag = id
+    updateFrontend()
+}
+
+function updateTodo()
+{
+    console.log("updateTodo")
+    
+}
+
 function updateFrontend()
 {
     //updating Frontend
@@ -85,12 +101,26 @@ function updateFrontend()
         }
         else
         {
-            todoList.innerHTML += 
+            if(editingFlag == element.id)//Editing
+            {
+                todoList.innerHTML += 
+                "<li>"+
+                    "<input type=\"checkbox\"  onclick=\"checkboxListener("+element.id+")\"></input>"+
+                    "<input type=\"text\" placeholder=\"Edit your todo\" value=\""+element.text+"\"/>"+
+                    "  <button onclick=\"deleteTodo("+element.id+")\">Delete</button>"+
+                    "  <button onclick=\"updateTodo()\">Save Todo</button>"+
+                "</li>"
+            }
+            else//Not editing
+            {
+                todoList.innerHTML += 
                 "<li>"+
                     "<input type=\"checkbox\"  onclick=\"checkboxListener("+element.id+")\"></input>"+
                     element.text+
                     "  <button onclick=\"deleteTodo("+element.id+")\">Delete</button>"+
+                    "<button onclick=\"editTodo("+element.id+")\">Edit</button>"+
                 "</li>"
+            }
         }
     })
 }
