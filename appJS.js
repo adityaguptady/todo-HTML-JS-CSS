@@ -80,7 +80,19 @@ function editTodo(id)
 function updateTodo()
 {
     console.log("updateTodo")
-    
+    todo.map(element=>
+        {
+            if(element.id == editingFlag)
+            {
+                element.text = document.getElementById("editTodo").value
+                return element
+            }
+            else
+                return element
+        })
+    console.log(todo)
+    editingFlag = -1
+    updateFrontend()
 }
 
 function updateFrontend()
@@ -106,7 +118,7 @@ function updateFrontend()
                 todoList.innerHTML += 
                 "<li>"+
                     "<input type=\"checkbox\"  onclick=\"checkboxListener("+element.id+")\"></input>"+
-                    "<input type=\"text\" placeholder=\"Edit your todo\" value=\""+element.text+"\"/>"+
+                    "<input type=\"text\" id=\"editTodo\" placeholder=\"Edit your todo\" value=\""+element.text+"\"/>"+
                     "  <button onclick=\"deleteTodo("+element.id+")\">Delete</button>"+
                     "  <button onclick=\"updateTodo()\">Save Todo</button>"+
                 "</li>"
